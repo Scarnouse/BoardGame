@@ -4,13 +4,14 @@ import java.time.Year;
 
 public class Juego {
 	private String nombre, imagen;
-	private int identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating;
+	private int identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking;
 	private Year anyoPublicacion;
+	private double rating;
 	
 	public Juego(){};
 
 	public Juego(String nombre, String imagen, int identificador, int minimoJugadores, int maximoJugadores, int tiempoJuego, int ranking,
-			int rating, Year anyoPublicacion) {
+			double rating, Year anyoPublicacion) {
 		this.nombre = nombre;
 		this.imagen = imagen;
 		this.identificador = identificador;

@@ -16,7 +16,8 @@ public class LecturaFichero {
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
 			//List<Juego> listaJuegos = new ArrayList<Juego>();
 			jReader.beginArray();
-			int identificador = 0, minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0, rating = 0;
+			int identificador = 0, minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
+			double rating = 0;
 			String nombre = "", imagen = "";
 			Year anyoPublicacion = null;
 			while (jReader.hasNext()){
@@ -34,7 +35,7 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("averageRating")) jReader.skipValue();
 				if (jReader.nextName().equals("rank")) ranking = jReader.nextInt();
 				if (jReader.nextName().equals("numPlays")) jReader.skipValue();
-				if (jReader.nextName().equals("rating")) rating = jReader.nextInt();
+				if (jReader.nextName().equals("rating")) rating = jReader.nextDouble();
 				if (jReader.nextName().equals("owned")) jReader.skipValue();
 				if (jReader.nextName().equals("preOrdered")) jReader.skipValue();
 				if (jReader.nextName().equals("forTrade")) jReader.skipValue();

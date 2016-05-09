@@ -21,11 +21,11 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 
 public class VistaPrincipal {
 
 	private JFrame frame;
-	private JTable tabla;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -33,6 +33,7 @@ public class VistaPrincipal {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	private JTable tabla;
 
 	/**
 	 * Esta parte tendrá que ir a Test o a Controlador
@@ -62,7 +63,7 @@ public class VistaPrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 600, 450);
+		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menu = new JMenuBar();
@@ -90,7 +91,9 @@ public class VistaPrincipal {
 		panelTitulo.add(lblBarraTitulo);
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setDividerLocation(300);
 		frame.getContentPane().add(splitPane, BorderLayout.CENTER);
+		
 		
 		JPanel panelDerecho = new JPanel();
 		splitPane.setRightComponent(panelDerecho);
@@ -113,32 +116,32 @@ public class VistaPrincipal {
 		
 		GroupLayout gl_panelDerecho = new GroupLayout(panelDerecho);
 		gl_panelDerecho.setHorizontalGroup(
-			gl_panelDerecho.createParallelGroup(Alignment.LEADING)
+			gl_panelDerecho.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelDerecho.createSequentialGroup()
 					.addGap(304)
 					.addComponent(verticalBox, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(262, Short.MAX_VALUE))
+					.addContainerGap(184, Short.MAX_VALUE))
 				.addGroup(gl_panelDerecho.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(horizontalBox, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+					.addComponent(horizontalBox, GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(imagen, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(horizontalBox_1, GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+					.addComponent(horizontalBox_1, GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
 					.addGap(7))
 				.addGroup(gl_panelDerecho.createSequentialGroup()
 					.addGap(76)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
 					.addGap(71))
-				.addGroup(gl_panelDerecho.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_panelDerecho.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(btnGuardar)
-					.addPreferredGap(ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
-					.addComponent(btnNuevo, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
+					.addComponent(btnNuevo)
 					.addContainerGap())
-				.addGroup(Alignment.TRAILING, gl_panelDerecho.createSequentialGroup()
+				.addGroup(gl_panelDerecho.createSequentialGroup()
 					.addGap(241)
-					.addComponent(verticalBox_1, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+					.addComponent(verticalBox_1, GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE)
 					.addGap(229))
 		);
 		gl_panelDerecho.setVerticalGroup(
@@ -148,7 +151,7 @@ public class VistaPrincipal {
 						.addGroup(gl_panelDerecho.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(verticalBox, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
 							.addComponent(imagen, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelDerecho.createSequentialGroup()
 							.addGap(81)
@@ -159,7 +162,7 @@ public class VistaPrincipal {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(verticalBox_1, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+					.addComponent(verticalBox_1, GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
 					.addGap(8)
 					.addGroup(gl_panelDerecho.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnGuardar)
@@ -302,6 +305,10 @@ public class VistaPrincipal {
 		
 		tabla = new JTable();
 		panelIzquierdo.add(tabla);
+		
+		JScrollPane scrollPane = new JScrollPane(tabla);
+		panelIzquierdo.add(scrollPane);
+		
 
 	}
 }
