@@ -8,7 +8,7 @@ public class Test {
 	public static void main(String[] args) {
 		
 		Controlador controlador = new Controlador(new VistaPrincipal());
-		//LecturaFichero lFichero = new LecturaFichero(new File("recursos/edwater.json"));
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

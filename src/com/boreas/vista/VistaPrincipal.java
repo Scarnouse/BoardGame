@@ -330,12 +330,8 @@ public class VistaPrincipal {
 		return frame;
 	}
 	
-	//posible getter a mntmAbrir
 	public JMenuItem getMntmAbrir() {
 		return mntmAbrir;
 	}
 	
-	public void setTabla(String[][] lista, String[] array) {
-		this.tabla = new JTable(lista, array);
-	}
 }

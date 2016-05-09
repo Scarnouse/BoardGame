@@ -4,6 +4,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 
 import com.boreas.modelo.Juego;
 import com.boreas.servicio.LecturaFichero;
@@ -32,6 +33,7 @@ public class Controlador {
 				fichero = fC.getSelectedFile();
 			}
 			lFichero = new LecturaFichero(fichero);
+			
 		});
 	}
 	

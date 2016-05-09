@@ -13,7 +13,6 @@ import com.google.gson.stream.JsonReader;
 public class LecturaFichero {
 	
 	private List<Juego> listaJuegos = new ArrayList<Juego>();
-	private List<Juego> listaReducida = new ArrayList<Juego>();
 	public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
 	
 	public LecturaFichero(File file){
@@ -48,12 +47,17 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wantToBuy")) jReader.skipValue();
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
-				listaReducida.add(new Juego(identificador,nombre,ranking,rating));
 				listaJuegos.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
-				//System.out.println(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
+			
+			
+			/* Comprueba que la lista está llena.
+			 * for (Juego juego : listaJuegos) {
+				System.out.println(juego);
+			}*/
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,10 +65,6 @@ public class LecturaFichero {
 	
 	public List<Juego> getListaJuegos() {
 		return listaJuegos;
-	}
-	
-	public List<Juego> getListaReducida() {
-		return listaReducida;
 	}
 	
 }
