@@ -1,8 +1,6 @@
 import java.awt.EventQueue;
-//import java.io.File;
 
 import com.boreas.controlador.Controlador;
-//import com.boreas.servicio.LecturaFichero;
 import com.boreas.vista.VistaPrincipal;
 
 public class Test {

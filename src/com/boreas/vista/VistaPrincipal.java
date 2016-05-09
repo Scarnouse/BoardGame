@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.Box;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -28,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class VistaPrincipal {
@@ -45,8 +45,8 @@ public class VistaPrincipal {
 
 	
 	public VistaPrincipal(){
-		Controlador controlador = new Controlador(this);
 		initialize();
+		Controlador controlador = new Controlador(this);
 	}
 
 	/**
@@ -87,15 +87,6 @@ public class VistaPrincipal {
 		menu.add(mnArchivo);
 		
 		mntmAbrir = new JMenuItem("Abrir");
-		//método JFileChooser
-		/*mntmAbrir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fC = new JFileChooser();
-				if (fC.showOpenDialog(mnArchivo) == JFileChooser.APPROVE_OPTION){
-					
-				}
-			}
-		});*/
 		mnArchivo.add(mntmAbrir);
 		
 		JMenuItem mntmGuardar = new JMenuItem("Guardar");
@@ -342,5 +333,9 @@ public class VistaPrincipal {
 	//posible getter a mntmAbrir
 	public JMenuItem getMntmAbrir() {
 		return mntmAbrir;
+	}
+	
+	public void setTabla(String[][] lista, String[] array) {
+		this.tabla = new JTable(lista, array);
 	}
 }

@@ -4,17 +4,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Year;
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-//import com.boreas.modelo.Juego;
+import com.boreas.modelo.Juego;
 import com.google.gson.stream.JsonReader;
 
 public class LecturaFichero {
 	
+	private List<Juego> listaJuegos = new ArrayList<Juego>();
+	private List<Juego> listaReducida = new ArrayList<Juego>();
+	public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
+	
 	public LecturaFichero(File file){
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
-			//List<Juego> listaJuegos = new ArrayList<Juego>();
 			jReader.beginArray();
 			int identificador = 0, minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
 			double rating = 0;
@@ -45,7 +48,8 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wantToBuy")) jReader.skipValue();
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
-				//listaJuegos.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
+				listaReducida.add(new Juego(identificador,nombre,ranking,rating));
+				listaJuegos.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				//System.out.println(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
@@ -55,4 +59,13 @@ public class LecturaFichero {
 		}
 	}
 	
+	public List<Juego> getListaJuegos() {
+		return listaJuegos;
+	}
+	
+	public List<Juego> getListaReducida() {
+		return listaReducida;
+	}
+	
 }
+

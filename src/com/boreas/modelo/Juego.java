@@ -9,6 +9,13 @@ public class Juego {
 	private double rating;
 	
 	public Juego(){};
+	
+	public Juego(int identificador, String nombre, int ranking, double rating){
+		this.identificador = identificador;
+		this.nombre = nombre;
+		this.ranking = ranking;
+		this.rating = rating;
+	};
 
 	public Juego(String nombre, String imagen, int identificador, int minimoJugadores, int maximoJugadores, int tiempoJuego, int ranking,
 			double rating, Year anyoPublicacion) {
