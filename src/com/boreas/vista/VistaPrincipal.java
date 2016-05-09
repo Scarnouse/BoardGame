@@ -1,6 +1,6 @@
 package com.boreas.vista;
 
-import java.awt.EventQueue;
+//import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -11,17 +11,24 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
+
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.Box;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import com.boreas.controlador.Controlador;
+
 import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VistaPrincipal {
 
@@ -34,11 +41,18 @@ public class VistaPrincipal {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTable tabla;
+	private JMenuItem mntmAbrir;
+
+	
+	public VistaPrincipal(){
+		Controlador controlador = new Controlador(this);
+		initialize();
+	}
 
 	/**
 	 * Esta parte tendrá que ir a Test o a Controlador
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -49,14 +63,14 @@ public class VistaPrincipal {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
 	 */
-	public VistaPrincipal() {
+	/*public VistaPrincipal() {
 		initialize();
-	}
+	}*/
 
 	/**
 	 * Initialize the contents of the frame.
@@ -72,7 +86,16 @@ public class VistaPrincipal {
 		JMenu mnArchivo = new JMenu("Archivo");
 		menu.add(mnArchivo);
 		
-		JMenuItem mntmAbrir = new JMenuItem("Abrir");
+		mntmAbrir = new JMenuItem("Abrir");
+		//método JFileChooser
+		/*mntmAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fC = new JFileChooser();
+				if (fC.showOpenDialog(mnArchivo) == JFileChooser.APPROVE_OPTION){
+					
+				}
+			}
+		});*/
 		mnArchivo.add(mntmAbrir);
 		
 		JMenuItem mntmGuardar = new JMenuItem("Guardar");
@@ -310,5 +333,14 @@ public class VistaPrincipal {
 		panelIzquierdo.add(scrollPane);
 		
 
+	}
+	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	//posible getter a mntmAbrir
+	public JMenuItem getMntmAbrir() {
+		return mntmAbrir;
 	}
 }
