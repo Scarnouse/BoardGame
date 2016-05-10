@@ -4,18 +4,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.boreas.modelo.Juego;
+import com.boreas.modelo.ListaJuegos;
 import com.google.gson.stream.JsonReader;
 
 public class LecturaFichero {
 	
-	private List<Juego> listaJuegos = new ArrayList<Juego>();
+	private ListaJuegos lista = new ListaJuegos();
 	public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
 	
-	public LecturaFichero(File file){
+	public void leerFichero(File file){
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
 			jReader.beginArray();
 			int identificador = 0, minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
@@ -47,14 +46,12 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wantToBuy")) jReader.skipValue();
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
-				listaJuegos.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
+				lista.addLista(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
 			
-			
-			/* Comprueba que la lista está llena.
-			 * for (Juego juego : listaJuegos) {
+			/*for (Juego juego : lista.getLista()) {
 				System.out.println(juego);
 			}*/
 			
@@ -63,9 +60,7 @@ public class LecturaFichero {
 		}
 	}
 	
-	public List<Juego> getListaJuegos() {
-		return listaJuegos;
-	}
-	
 }
+
+
 

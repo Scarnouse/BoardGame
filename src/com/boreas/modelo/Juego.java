@@ -30,8 +30,8 @@ public class Juego {
 		this.anyoPublicacion = anyoPublicacion;
 	}
 
-	/* To String para comprobaciones de las listas.
-	 * @Override
+
+	/*@Override
 	public String toString() {
 		return "Juego [nombre=" + nombre + ", imagen=" + imagen + ", identificador=" + identificador
 				+ ", minimoJugadores=" + minimoJugadores + ", maximoJugadores=" + maximoJugadores + ", tiempoJuego="

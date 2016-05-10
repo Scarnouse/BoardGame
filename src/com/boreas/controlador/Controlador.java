@@ -1,10 +1,11 @@
 package com.boreas.controlador;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFileChooser;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.TableModel;
 
 import com.boreas.modelo.Juego;
 import com.boreas.servicio.LecturaFichero;
@@ -22,7 +23,7 @@ public class Controlador {
 		this.vista = vista;
 		inicializar();
 	}
-	
+
 	public void inicializar(){
 		vista.getMntmAbrir().addActionListener(l->{
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON", "json");
@@ -32,8 +33,8 @@ public class Controlador {
 			if (seleccion == JFileChooser.APPROVE_OPTION){
 				fichero = fC.getSelectedFile();
 			}
-			lFichero = new LecturaFichero(fichero);
-			
+			lFichero = new LecturaFichero();
+			lFichero.leerFichero(fichero);
 		});
 	}
 	
