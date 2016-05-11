@@ -30,14 +30,87 @@ public class Juego {
 		this.anyoPublicacion = anyoPublicacion;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
 
-	/*@Override
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public int getIdentificador() {
+		return identificador;
+	}
+
+	public void setIdentificador(int identificador) {
+		this.identificador = identificador;
+	}
+
+	public int getMinimoJugadores() {
+		return minimoJugadores;
+	}
+
+	public void setMinimoJugadores(int minimoJugadores) {
+		this.minimoJugadores = minimoJugadores;
+	}
+
+	public int getMaximoJugadores() {
+		return maximoJugadores;
+	}
+
+	public void setMaximoJugadores(int maximoJugadores) {
+		this.maximoJugadores = maximoJugadores;
+	}
+
+	public int getTiempoJuego() {
+		return tiempoJuego;
+	}
+
+	public void setTiempoJuego(int tiempoJuego) {
+		this.tiempoJuego = tiempoJuego;
+	}
+
+	public int getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(int ranking) {
+		this.ranking = ranking;
+	}
+
+	public Year getAnyoPublicacion() {
+		return anyoPublicacion;
+	}
+
+	public void setAnyoPublicacion(Year anyoPublicacion) {
+		this.anyoPublicacion = anyoPublicacion;
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+
+	
+	
+	@Override
 	public String toString() {
 		return "Juego [nombre=" + nombre + ", imagen=" + imagen + ", identificador=" + identificador
 				+ ", minimoJugadores=" + minimoJugadores + ", maximoJugadores=" + maximoJugadores + ", tiempoJuego="
 				+ tiempoJuego + ", ranking=" + ranking + ", rating=" + rating + ", anyoPublicacion=" + anyoPublicacion
 				+ "]";
-	};*/
+	};
 	
 	
 	

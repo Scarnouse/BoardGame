@@ -12,7 +12,6 @@ import com.google.gson.stream.JsonReader;
 public class LecturaFichero {
 	
 	private ListaJuegos lista = new ListaJuegos();
-	public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
 	
 	public void leerFichero(File file){
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
@@ -46,17 +45,20 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wantToBuy")) jReader.skipValue();
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
+				
 				lista.addLista(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
 			
-			/*for (Juego juego : lista.getLista()) {
-				System.out.println(juego);
-			}*/
+
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		
+		for (Juego juego : lista.getLista()) {
+			System.out.println(juego);
 		}
 	}
 	

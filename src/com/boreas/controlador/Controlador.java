@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
+import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
 
 import com.boreas.modelo.Juego;
+import com.boreas.modelo.ListaJuegos;
 import com.boreas.servicio.LecturaFichero;
 import com.boreas.vista.VistaPrincipal;
 
@@ -17,6 +21,7 @@ public class Controlador {
 	private VistaPrincipal vista;
 	private File fichero;
 	private LecturaFichero lFichero;
+	private ListaJuegos lJuegos = new ListaJuegos();
 	
 	public Controlador(VistaPrincipal vista){
 		juego = new Juego();
@@ -35,6 +40,7 @@ public class Controlador {
 			}
 			lFichero = new LecturaFichero();
 			lFichero.leerFichero(fichero);
+			vista.getTabla().setModel(new TablaModelo(lJuegos.getLista()));
 		});
 	}
 	

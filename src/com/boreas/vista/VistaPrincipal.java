@@ -26,6 +26,7 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 public class VistaPrincipal {
 
@@ -37,8 +38,9 @@ public class VistaPrincipal {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
-	private JTable tabla;
 	private JMenuItem mntmAbrir;
+	private JPanel panelIzquierdo;
+	private JTable tabla;
 
 	
 	public VistaPrincipal(){
@@ -311,15 +313,22 @@ public class VistaPrincipal {
 		verticalBox_1.add(verticalGlue);
 		panelDerecho.setLayout(gl_panelDerecho);
 		
-		JPanel panelIzquierdo = new JPanel();
+		panelIzquierdo = new JPanel();
 		splitPane.setLeftComponent(panelIzquierdo);
 		
 		tabla = new JTable();
-		panelIzquierdo.add(tabla);
-		
+		GroupLayout gl_panelIzquierdo = new GroupLayout(panelIzquierdo);
+		gl_panelIzquierdo.setHorizontalGroup(
+			gl_panelIzquierdo.createParallelGroup(Alignment.LEADING)
+				.addComponent(tabla, GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+		);
+		gl_panelIzquierdo.setVerticalGroup(
+			gl_panelIzquierdo.createParallelGroup(Alignment.LEADING)
+				.addComponent(tabla, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+		);
+		panelIzquierdo.setLayout(gl_panelIzquierdo);
 		JScrollPane scrollPane = new JScrollPane(tabla);
 		panelIzquierdo.add(scrollPane);
-		
 
 	}
 	
@@ -331,4 +340,11 @@ public class VistaPrincipal {
 		return mntmAbrir;
 	}
 	
+	public JTable getTabla() {
+		return tabla;
+	}
+	
+	public void setTabla(JTable tabla) {
+		this.tabla = tabla;
+	}
 }

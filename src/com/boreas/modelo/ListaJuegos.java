@@ -13,5 +13,6 @@ public class ListaJuegos {
 	public List<Juego> getLista(){
 		return this.lista;
 	}
+
 }	
 
