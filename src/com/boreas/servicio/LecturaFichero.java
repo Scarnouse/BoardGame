@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.boreas.modelo.Juego;
-import com.boreas.modelo.ListaJuegos;
 import com.google.gson.stream.JsonReader;
 
 public class LecturaFichero {
 	
-	private ListaJuegos lista = new ListaJuegos();
-	
+	private List<Juego> lista = new ArrayList<Juego>();
+	// Este método permite la lectura del fichero y su conservación en una lista dinámica.
 	public void leerFichero(File file){
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
 			jReader.beginArray();
@@ -46,7 +47,7 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
 				
-				lista.addLista(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
+				lista.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
@@ -64,7 +65,7 @@ public class LecturaFichero {
 		
 	}
 	
-	public ListaJuegos getLista() {
+	public List<Juego> getLista() {
 		return lista;
 	}
 	

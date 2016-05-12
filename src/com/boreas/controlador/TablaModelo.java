@@ -5,17 +5,15 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import com.boreas.modelo.Juego;
-//import com.boreas.modelo.ListaJuegos;
+
 
 public class TablaModelo extends AbstractTableModel{
 	
-	//ListaJuegos l = new ListaJuegos();
-	//private List<Juego> lista = l.getLista();
-	//public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
+	public static final String[] CABECERA = {"Identificador","Nombre","Ranking","Rating"};
 	String[][] array;
 	
 	public TablaModelo(List<Juego> lista) {
-		 array = ListaComplejaAStringBidimensional.getListaReducida(lista);
+		 array = List2Array.getListaReducida(lista);
 	}
 
 	
@@ -32,6 +30,9 @@ public class TablaModelo extends AbstractTableModel{
 		return array[rowIndex][columnIndex];
 	}
 	
-	
+	@Override
+	public String getColumnName(int column) {
+		return CABECERA[column];
+	}
 	
 }

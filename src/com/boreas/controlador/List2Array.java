@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.boreas.modelo.Juego;
 
-public class ListaComplejaAStringBidimensional {
+public class List2Array {
 	
+	//Este método tiene como función la carga de de un array bidimensional para crear la tabla
+	//El concepto es que no se carguen los mismos datos en la tabla que en el formulario
 	protected static String[][] getListaReducida(List<Juego> lista){
 		String[][] array = new String[lista.size()][lista.size()*4];
 		List<String> cadenas = new ArrayList<String>();
