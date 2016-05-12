@@ -48,32 +48,6 @@ public class VistaPrincipal {
 		Controlador controlador = new Controlador(this);
 	}
 
-	/**
-	 * Esta parte tendrá que ir a Test o a Controlador
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VistaPrincipal window = new VistaPrincipal();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
-
-	/**
-	 * Create the application.
-	 */
-	/*public VistaPrincipal() {
-		initialize();
-	}*/
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 600);
@@ -317,6 +291,7 @@ public class VistaPrincipal {
 		splitPane.setLeftComponent(panelIzquierdo);
 		
 		tabla = new JTable();
+		panelIzquierdo.add(tabla);
 		GroupLayout gl_panelIzquierdo = new GroupLayout(panelIzquierdo);
 		gl_panelIzquierdo.setHorizontalGroup(
 			gl_panelIzquierdo.createParallelGroup(Alignment.LEADING)
@@ -327,8 +302,11 @@ public class VistaPrincipal {
 				.addComponent(tabla, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
 		);
 		panelIzquierdo.setLayout(gl_panelIzquierdo);
-		JScrollPane scrollPane = new JScrollPane(tabla);
+		
+		JScrollPane scrollPane = new JScrollPane();
 		panelIzquierdo.add(scrollPane);
+		scrollPane.add(tabla);
+		
 
 	}
 	

@@ -17,14 +17,11 @@ import com.boreas.vista.VistaPrincipal;
 
 public class Controlador {
 	
-	private Juego juego;
 	private VistaPrincipal vista;
 	private File fichero;
 	private LecturaFichero lFichero;
-	private ListaJuegos lJuegos = new ListaJuegos();
 	
 	public Controlador(VistaPrincipal vista){
-		juego = new Juego();
 		this.vista = vista;
 		inicializar();
 	}
@@ -40,7 +37,8 @@ public class Controlador {
 			}
 			lFichero = new LecturaFichero();
 			lFichero.leerFichero(fichero);
-			vista.getTabla().setModel(new TablaModelo(lJuegos.getLista()));
+			vista.getTabla().setModel(new TablaModelo(lFichero.getLista().getLista()));
+			
 		});
 	}
 	
