@@ -4,24 +4,24 @@ import java.time.Year;
 
 public class Juego {
 	private String nombre, imagen;
-	private int identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking;
+	private int minimoJugadores, maximoJugadores, tiempoJuego, ranking;
 	private Year anyoPublicacion;
 	private double rating;
-	
-	public Juego(){};
-	
-	public Juego(int identificador, String nombre, int ranking, double rating){
-		this.identificador = identificador;
-		this.nombre = nombre;
-		this.ranking = ranking;
-		this.rating = rating;
-	};
-
-	public Juego(String nombre, String imagen, int identificador, int minimoJugadores, int maximoJugadores, int tiempoJuego, int ranking,
+	/**
+	 * Costructor de la clase juego. No pude encotrar un modelo adecaudo a herencia en los datos que extraía del JSON
+	 * @param nombre nombre del juego
+	 * @param imagen dirección url que tiene una imagen en miniatura del juego
+	 * @param minimoJugadores numero mínimo de jugadores
+	 * @param maximoJugadores numero máximo de jugadores
+	 * @param tiempoJuego tiempo medio estimado de partida.
+	 * @param ranking ranking en la BGG (página de juegos de tablero)
+	 * @param rating valoración hecha por el usuario
+	 * @param anyoPublicacion año de publicación
+	 */
+	public Juego(String nombre, String imagen, int minimoJugadores, int maximoJugadores, int tiempoJuego, int ranking,
 			double rating, Year anyoPublicacion) {
 		this.nombre = nombre;
 		this.imagen = imagen;
-		this.identificador = identificador;
 		this.minimoJugadores = minimoJugadores;
 		this.maximoJugadores = maximoJugadores;
 		this.tiempoJuego = tiempoJuego;
@@ -29,7 +29,8 @@ public class Juego {
 		this.rating = rating;
 		this.anyoPublicacion = anyoPublicacion;
 	}
-
+	
+	//Getters y Setters
 	public String getNombre() {
 		return nombre;
 	}
@@ -42,17 +43,11 @@ public class Juego {
 		return imagen;
 	}
 
-	public void setImagen(String imagen) {
+	//el setter de imagen lo dejo para una posible ampliación del programa que permita al usuario
+	//a incluir sus propias miniaturas de los juegos.
+	/*public void setImagen(String imagen) {
 		this.imagen = imagen;
-	}
-
-	public int getIdentificador() {
-		return identificador;
-	}
-
-	public void setIdentificador(int identificador) {
-		this.identificador = identificador;
-	}
+	}*/
 
 	public int getMinimoJugadores() {
 		return minimoJugadores;
@@ -102,11 +97,47 @@ public class Juego {
 		this.rating = rating;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((anyoPublicacion == null) ? 0 : anyoPublicacion.hashCode());
+		result = prime * result + maximoJugadores;
+		result = prime * result + minimoJugadores;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Juego other = (Juego) obj;
+		if (anyoPublicacion == null) {
+			if (other.anyoPublicacion != null)
+				return false;
+		} else if (!anyoPublicacion.equals(other.anyoPublicacion))
+			return false;
+		if (maximoJugadores != other.maximoJugadores)
+			return false;
+		if (minimoJugadores != other.minimoJugadores)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
+	}
 	
-	
+	//Este método toString fue usado al principio para poder ver que leía correctamente los datos del JSON
 	@Override
 	public String toString() {
-		return "Juego [nombre=" + nombre + ", imagen=" + imagen + ", identificador=" + identificador
+		return "Juego [nombre=" + nombre + ", imagen=" + imagen + ", identificador=" 
 				+ ", minimoJugadores=" + minimoJugadores + ", maximoJugadores=" + maximoJugadores + ", tiempoJuego="
 				+ tiempoJuego + ", ranking=" + ranking + ", rating=" + rating + ", anyoPublicacion=" + anyoPublicacion
 				+ "]";

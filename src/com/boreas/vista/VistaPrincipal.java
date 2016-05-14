@@ -16,7 +16,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JEditorPane;
 import javax.swing.Box;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -26,16 +25,14 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
+/**
+ * 
+ * @author Manuel Quesada Segura
+ * @version 0.0
+ *
+ */
 public class VistaPrincipal {
 
 	private JFrame frame;
@@ -83,6 +80,11 @@ public class VistaPrincipal {
 	private JLabel imagen;
 	private JButton atras;
 	private JButton adelante;
+	private JButton btnEliminar;
+	private JMenu mnInforme;
+	private JMenuItem mntmGenerarPdf;
+	private JMenu mnAyuda;
+	private JMenuItem mntmCreditos;
 	
 	public VistaPrincipal(){
 		initialize();
@@ -108,6 +110,22 @@ public class VistaPrincipal {
 		
 		mntmCerrar = new JMenuItem("Cerrar");
 		mnArchivo.add(mntmCerrar);
+		
+		mnInforme = new JMenu("Informe");
+		menu.add(mnInforme);
+		
+		mntmGenerarPdf = new JMenuItem("Generar PDF");
+		mntmGenerarPdf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnInforme.add(mntmGenerarPdf);
+		
+		mnAyuda = new JMenu("Ayuda");
+		menu.add(mnAyuda);
+		
+		mntmCreditos = new JMenuItem("Créditos");
+		mnAyuda.add(mntmCreditos);
 		
 		panelTitulo = new JPanel();
 		flowLayout = (FlowLayout) panelTitulo.getLayout();
@@ -247,6 +265,8 @@ public class VistaPrincipal {
 		
 		textTiempo = new JTextField();
 		textTiempo.setColumns(10);
+		
+		btnEliminar = new JButton("Eliminar");
 		gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -256,12 +276,14 @@ public class VistaPrincipal {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textNombre, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+							.addComponent(textNombre, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblAo)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textAnyo, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnEliminar)
+							.addPreferredGap(ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
 							.addComponent(lblRanking)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(textRanking, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
@@ -312,18 +334,17 @@ public class VistaPrincipal {
 							.addComponent(lblMax)))
 					.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(textTiempo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblTiempoDeJuego)
-							.addGap(18)))
+						.addComponent(textTiempo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTiempoDeJuego))
+					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(textRanking, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textRating, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(3)
-							.addComponent(lblRanking))
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblRanking)
+								.addComponent(btnEliminar)))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(3)
 							.addComponent(lblRating)))
@@ -461,5 +482,21 @@ public class VistaPrincipal {
 	
 	public JLabel getLblBarraTitulo() {
 		return lblBarraTitulo;
+	}
+	
+	public void setBtnGuardar(JButton btnGuardar) {
+		this.btnGuardar = btnGuardar;
+	}
+	
+	public JButton getBtnEliminar() {
+		return btnEliminar;
+	}
+	
+	public JMenuItem getMntmGenerarPdf() {
+		return mntmGenerarPdf;
+	}
+	
+	public JMenuItem getMntmCreditos() {
+		return mntmCreditos;
 	}
 }

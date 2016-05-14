@@ -4,28 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boreas.modelo.Juego;
-
+/**
+ * 
+ * @author Manuel Quesada Segura
+ * @version 0.0
+ *
+ */
 public class List2Array {
 	
-	//Este método tiene como función la carga de de un array bidimensional para crear la tabla
-	//El concepto es que no se carguen los mismos datos en la tabla que en el formulario
+	/**
+	 * Este método permite la carga de un array bidimensional para crear la tabla
+	 * Mi decisión es que la tabla no mostrase todos los datos al usuario para hacer funcional
+	 * el fomulario.
+	 * @param lista
+	 * @return
+	 */
 	protected static String[][] getListaReducida(List<Juego> lista){
-		String[][] array = new String[lista.size()][lista.size()*4];
+		String[][] array = new String[lista.size()][lista.size()*3];
 		List<String> cadenas = new ArrayList<String>();
 		for (int i=0; i<lista.size(); i++){
 			Juego juego = (Juego) lista.get(i);
-			for (int j=0; j<4; j++){
+			for (int j=0; j<3; j++){
 				switch (j){
 				case 0:
-					cadenas.add(juego.getIdentificador()+"");
-					break;
-				case 1:
 					cadenas.add(juego.getNombre());
 					break;
-				case 2:
+				case 1:
 					cadenas.add(juego.getRanking()+"");
 					break;
-				case 3:
+				case 2:
 					cadenas.add(juego.getRating()+"");
 					break;
 				}

@@ -1,4 +1,4 @@
-package com.boreas.servicio;
+package com.boreas.controlador;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,22 +9,31 @@ import java.util.List;
 
 import com.boreas.modelo.Juego;
 import com.google.gson.stream.JsonReader;
-
+/**
+ * Clase de lectura del fichero
+ * @author Manuel Quesada Segura
+ *
+ */
 public class LecturaFichero {
 	
 	private List<Juego> lista = new ArrayList<Juego>();
-	// Este método permite la lectura del fichero y su conservación en una lista dinámica.
+
+	/**
+	 * Método que permite la lectura del fichero JSON y su conservación en una lista dinámica.
+	 * @param file Fichero del que se va a extraer la información.
+	 */
 	public void leerFichero(File file){
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
 			jReader.beginArray();
-			int identificador = 0, minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
+			int minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
 			double rating = 0;
 			String nombre = "", imagen = "";
 			Year anyoPublicacion = null;
 			while (jReader.hasNext()){
 				jReader.beginObject();
-				if (jReader.nextName().equals("gameId")) identificador = jReader.nextInt();
-				if (jReader.nextName().equals("name")) nombre = jReader.nextString();
+				if (jReader.nextName().equals("gameId")) jReader.skipValue();
+				//El campo nombre contenía apóstrofes de ahí que haya tenido que reemplazarlos por espacios en blanco
+				if (jReader.nextName().equals("name")) nombre = jReader.nextString().replace("'","");
 				if (jReader.nextName().equals("image")) jReader.skipValue();
 				if (jReader.nextName().equals("thumbnail")) imagen = jReader.nextString();
 				if (jReader.nextName().equals("minPlayers")) minimoJugadores = jReader.nextInt();
@@ -47,7 +56,7 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
 				
-				lista.add(new Juego(nombre, imagen, identificador, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
+				lista.add(new Juego(nombre, imagen, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
@@ -64,7 +73,10 @@ public class LecturaFichero {
 		
 		
 	}
-	
+	/**
+	 * Getter de la lista
+	 * @return la lista
+	 */
 	public List<Juego> getLista() {
 		return lista;
 	}
