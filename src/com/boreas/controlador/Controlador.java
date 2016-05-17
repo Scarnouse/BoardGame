@@ -222,7 +222,7 @@ public class Controlador {
 		vista.getTextRanking().setText(lFichero.getLista().get(indice).getRanking()+"");
 		vista.getTextRating().setText(lFichero.getLista().get(indice).getRating()+"");
 		vista.getTextTiempo().setText(lFichero.getLista().get(indice).getTiempoJuego()+"");
-		String cadena = "Juego "+indice+" de "+lFichero.getLista().size();
+		String cadena = "Juego "+(indice+1)+" de "+lFichero.getLista().size();
 		vista.getLblBarraTitulo().setText(cadena);
 		//El siguiente código introduce una imagen del juego seleccionado en el programa
 		//En defecto de imagen muestra una imagen de un dado que se conserva en /resources
@@ -241,7 +241,7 @@ public class Controlador {
 			vista.getImagen().setIcon(new ImageIcon(imagen));
 		}
 	}
-	//método que valida si los campos son correctos
+
 	/**
 	 * Método que valida si los campos introducidos por el usuario son correctos.
 	 * Hago notar que hay campos que se introducen desde el archivo que son incorrectos
@@ -282,7 +282,7 @@ public class Controlador {
 	 * El método .equals está sobre escrito pero me ha parecido razonable extraer el método aquí
 	 * para no sobrecargar el evento que controla la modificación de datos en el fomulario.
 	 * @param juego que ha introducido el usuario y será comparado con la lista de juegos.
-	 * @return true si el usuario está tratando de introducir un juego erróneo.
+	 * @return true si el usuario está tratando de introducir un juego que ya está en la lista.
 	 */
 	private boolean esJuegoIgual(Juego juego){
 		boolean igual = false;
