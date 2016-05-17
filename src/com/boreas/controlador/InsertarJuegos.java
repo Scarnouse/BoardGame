@@ -20,7 +20,7 @@ public class InsertarJuegos {
 	 * @param c Conexión a la BD 
 	 * @param lista Lista que va a introducirse en la BD
 	 */
-	public static void insertarJuego(Connection c, List<Juego> lista){
+	public static void insertarListaJuegos(Connection c, List<Juego> lista){
 		
 		String sql = "";
 		
@@ -36,6 +36,22 @@ public class InsertarJuegos {
 		}
 	}
 	
-	//método para la inserción de un campo único
-	//recuerda controlar la existencia de tuplas en la base de datos
+	/**
+	 * Método para la inserción de un campo nuevo en la BD
+	 * El parámetro juego.getNombre está filtrado para que el usuario no introduzca el caracter ' y este dé conflicto
+	 * @param c Conexión a la BD
+	 * @param juego El juego que inserta el usuario
+	 */
+	public static void insertarJuego(Connection c, Juego juego){
+		
+		String sql = "INSERT INTO JUEGO VALUES (null,'"+juego.getNombre().replace("'","")+"','"+juego.getAnyoPublicacion()+"','"+juego.getMinimoJugadores()+"','"+juego.getMaximoJugadores()+"','"+juego.getTiempoJuego()+"','"+juego.getRanking()+"','"+juego.getRating()+"')";
+		
+		try {
+			sentencia = c.createStatement();
+			sentencia.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

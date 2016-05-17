@@ -65,7 +65,7 @@ public class Controlador {
 				lFichero.leerFichero(fichero);
 				vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
 				CrearTablas.crearTablaJuego(conexion);
-				InsertarJuegos.insertarJuego(conexion, lFichero.getLista());
+				InsertarJuegos.insertarListaJuegos(conexion, lFichero.getLista());
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
 				vista.getLblBarraTitulo().setText("No hay fichero cargado");
@@ -149,6 +149,7 @@ public class Controlador {
 							vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
 						} else {
 							lFichero.getLista().add(juego);
+							InsertarJuegos.insertarJuego(conexion, juego);
 							vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
 						}
 					}

@@ -21,7 +21,7 @@ public class CrearTablas {
 		String sql1 = "CREATE TABLE IF NOT EXISTS JUEGO ("
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "NOMBRE TEXT,"
-				+ "AÑO INTEGER,"
+				+ "ANYO INTEGER,"
 				+ "MINIMO INTEGER,"
 				+ "MAXIMO INTEGER,"
 				+ "TIEMPO INTEGER,"
