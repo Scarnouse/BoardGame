@@ -41,5 +41,25 @@ public class TablaModelo extends AbstractTableModel{
 	public String getColumnName(int column) {
 		return CABECERA[column];
 	}
+
+	/* Método para cambiar una fila de la tabla
+	 * No implantado
+	public void setValorTabla(Juego juego, int fila) {
+		for (int i = 0; i < 3; i++) {
+			switch (i) {
+			case 0:
+				array [fila][i] = juego.getNombre();
+				break;
+			case 1:
+				array [fila][i] = Integer.toString(juego.getRanking());
+				break;
+			case 2:
+				array [fila][i] = Double.toString(juego.getRating());
+				break;
+			default:
+				break;
+			}
+		}
+	}*/
 	
 }

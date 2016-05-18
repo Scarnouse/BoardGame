@@ -25,7 +25,7 @@ public class InsertarJuegos {
 		String sql = "";
 		
 		for (Juego juego : lista) {
-			sql = "INSERT INTO JUEGO VALUES (null,'"+juego.getNombre()+"','"+juego.getAnyoPublicacion()+"','"+juego.getMinimoJugadores()+"','"+juego.getMaximoJugadores()+"','"+juego.getTiempoJuego()+"','"+juego.getRanking()+"','"+juego.getRating()+"')";
+			sql = "INSERT INTO JUEGO VALUES (null,'"+juego.getNombre()+"','"+juego.getImagen()+"','"+juego.getMinimoJugadores()+"','"+juego.getMaximoJugadores()+"','"+juego.getTiempoJuego()+"','"+juego.getRanking()+"','"+juego.getRating()+"','"+juego.getAnyoPublicacion()+"')";
 			try {
 				sentencia = c.createStatement();
 				sentencia.executeUpdate(sql);

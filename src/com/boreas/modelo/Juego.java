@@ -4,8 +4,7 @@ import java.time.Year;
 
 public class Juego {
 	private String nombre, imagen;
-	private int minimoJugadores, maximoJugadores, tiempoJuego, ranking;
-	private Year anyoPublicacion;
+	private int minimoJugadores, maximoJugadores, tiempoJuego, ranking, anyoPublicacion;
 	private double rating;
 	/**
 	 * Costructor de la clase juego. No pude encotrar un modelo adecaudo a herencia en los datos que extraía del JSON
@@ -19,7 +18,7 @@ public class Juego {
 	 * @param anyoPublicacion año de publicación
 	 */
 	public Juego(String nombre, String imagen, int minimoJugadores, int maximoJugadores, int tiempoJuego, int ranking,
-			double rating, Year anyoPublicacion) {
+			double rating, int anyoPublicacion) {
 		this.nombre = nombre;
 		this.imagen = imagen;
 		this.minimoJugadores = minimoJugadores;
@@ -81,11 +80,11 @@ public class Juego {
 		this.ranking = ranking;
 	}
 
-	public Year getAnyoPublicacion() {
+	public int getAnyoPublicacion() {
 		return anyoPublicacion;
 	}
 
-	public void setAnyoPublicacion(Year anyoPublicacion) {
+	public void setAnyoPublicacion(int anyoPublicacion) {
 		this.anyoPublicacion = anyoPublicacion;
 	}
 
@@ -101,10 +100,11 @@ public class Juego {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((anyoPublicacion == null) ? 0 : anyoPublicacion.hashCode());
+		result = prime * result + anyoPublicacion;
 		result = prime * result + maximoJugadores;
 		result = prime * result + minimoJugadores;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + tiempoJuego;
 		return result;
 	}
 
@@ -117,10 +117,7 @@ public class Juego {
 		if (getClass() != obj.getClass())
 			return false;
 		Juego other = (Juego) obj;
-		if (anyoPublicacion == null) {
-			if (other.anyoPublicacion != null)
-				return false;
-		} else if (!anyoPublicacion.equals(other.anyoPublicacion))
+		if (anyoPublicacion != other.anyoPublicacion)
 			return false;
 		if (maximoJugadores != other.maximoJugadores)
 			return false;
@@ -131,9 +128,11 @@ public class Juego {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (tiempoJuego != other.tiempoJuego)
+			return false;
 		return true;
 	}
-	
+
 	//Este método toString fue usado al principio para poder ver que leía correctamente los datos del JSON
 	@Override
 	public String toString() {

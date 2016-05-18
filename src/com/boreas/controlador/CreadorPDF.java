@@ -41,7 +41,7 @@ public class CreadorPDF {
 				
 				fila.setSpacingAfter(5);
 				fila.addCell(new Phrase(juego.getNombre(), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC,8)));
-				fila.addCell(new Phrase(juego.getAnyoPublicacion().toString(), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 10)));
+				fila.addCell(new Phrase(Integer.toString(juego.getAnyoPublicacion()), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 10)));
 				fila.addCell(new Phrase(Integer.toString(juego.getMaximoJugadores()), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 10)));
 				fila.addCell(new Phrase(Integer.toString(juego.getMinimoJugadores()), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 10)));
 				fila.addCell(new Phrase(Integer.toString(juego.getRanking()), FontFactory.getFont(FontFactory.TIMES_BOLDITALIC, 10)));

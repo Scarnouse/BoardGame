@@ -10,7 +10,7 @@ import java.sql.Statement;
  * @version 0.0
  *
  */
-public class CrearTablas {
+public class CrearTablasBD {
 	private static Statement sentencia;
 	/**
 	 * Métod para crear las tablas de la BD
@@ -21,12 +21,14 @@ public class CrearTablas {
 		String sql1 = "CREATE TABLE IF NOT EXISTS JUEGO ("
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "NOMBRE TEXT,"
-				+ "ANYO INTEGER,"
+				+ "IMAGEN TEXT,"
 				+ "MINIMO INTEGER,"
 				+ "MAXIMO INTEGER,"
 				+ "TIEMPO INTEGER,"
 				+ "RANKING INTEGER,"
-				+ "RATING REAL)";
+				+ "RATING REAL,"
+				+ "ANYO TEXT)";
+		
 		try {
 			sentencia = con.createStatement();
 			sentencia.executeUpdate(sql1);

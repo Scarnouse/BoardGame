@@ -7,6 +7,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.boreas.modelo.Coleccion;
 import com.boreas.modelo.Juego;
 import com.google.gson.stream.JsonReader;
 /**
@@ -16,6 +17,7 @@ import com.google.gson.stream.JsonReader;
  */
 public class LecturaFichero {
 	
+	private Coleccion coleccion = new Coleccion();
 	private List<Juego> lista = new ArrayList<Juego>();
 
 	/**
@@ -23,12 +25,12 @@ public class LecturaFichero {
 	 * @param file Fichero del que se va a extraer la información.
 	 */
 	public void leerFichero(File file){
+		
 		try (JsonReader jReader = new JsonReader(new FileReader(file));){
 			jReader.beginArray();
-			int minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0;
+			int minimoJugadores = 0, maximoJugadores = 0, tiempoJuego = 0, ranking = 0, anyoPublicacion = 0;
 			double rating = 0;
 			String nombre = "", imagen = "";
-			Year anyoPublicacion = null;
 			while (jReader.hasNext()){
 				jReader.beginObject();
 				if (jReader.nextName().equals("gameId")) jReader.skipValue();
@@ -40,7 +42,7 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("maxPlayers")) maximoJugadores = jReader.nextInt();
 				if (jReader.nextName().equals("playingTime")) tiempoJuego = jReader.nextInt();
 				if (jReader.nextName().equals("isExpansion")) jReader.skipValue();
-				if (jReader.nextName().equals("yearPublished")) anyoPublicacion = Year.of(jReader.nextInt());
+				if (jReader.nextName().equals("yearPublished")) anyoPublicacion = jReader.nextInt();
 				if (jReader.nextName().equals("bggRating")) jReader.skipValue();
 				if (jReader.nextName().equals("averageRating")) jReader.skipValue();
 				if (jReader.nextName().equals("rank")) ranking = jReader.nextInt();
@@ -56,7 +58,7 @@ public class LecturaFichero {
 				if (jReader.nextName().equals("wishList")) jReader.skipValue();
 				if (jReader.nextName().equals("userComment")) jReader.skipValue();
 				
-				lista.add(new Juego(nombre, imagen, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
+				coleccion.addLista(new Juego(nombre, imagen, minimoJugadores, maximoJugadores, tiempoJuego, ranking, rating, anyoPublicacion));
 				jReader.endObject();
 			}
 			jReader.endArray();
@@ -67,20 +69,15 @@ public class LecturaFichero {
 			e.printStackTrace();
 		}
 		
-		/*for (Juego juego : lista.getLista()) {
+		for (Juego juego : coleccion.getLista()) {
 			System.out.println(juego);
-		}*/
+		}
 		
-		
-	}
-	/**
-	 * Getter de la lista
-	 * @return la lista
-	 */
-	public List<Juego> getLista() {
-		return lista;
 	}
 	
+	/*public List<Juego> getLista() {
+		return lista;
+	}*/
 }
 
 

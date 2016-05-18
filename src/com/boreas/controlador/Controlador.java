@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.boreas.modelo.Coleccion;
 import com.boreas.modelo.Juego;
 import com.boreas.vista.VistaPrincipal;
 
@@ -34,7 +34,8 @@ public class Controlador {
 	
 	private VistaPrincipal vista;
 	private File fichero;
-	private LecturaFichero lFichero = null;
+	private Coleccion coleccion;
+	private LecturaFichero lFichero = new LecturaFichero();
 	private int indice = 0;
 	private boolean modificar = true;
 	private Connection conexion;
@@ -52,6 +53,11 @@ public class Controlador {
 
 	public void inicializar(){
 		
+		if (new File("database.db").exists() && ConsultarBD.obtenerFilas(conexion)>0){
+			vista.getMntmAbrir().setEnabled(false);
+			vista.getTabla().setModel(new TablaModelo(ConsultarBD.obtenerTodos(conexion)));
+		}
+		
 		//Evento carga de datos a la tabla
 
 		vista.getMntmAbrir().addActionListener(l->{
@@ -61,11 +67,12 @@ public class Controlador {
 			int seleccion = fC.showOpenDialog(vista.getMntmAbrir());
 			if (seleccion == JFileChooser.APPROVE_OPTION){
 				fichero = fC.getSelectedFile();
-				lFichero = new LecturaFichero();
+				//coleccion = new Coleccion();
 				lFichero.leerFichero(fichero);
-				vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
-				CrearTablas.crearTablaJuego(conexion);
-				InsertarJuegos.insertarListaJuegos(conexion, lFichero.getLista());
+				vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
+				CrearTablasBD.crearTablaJuego(conexion);
+				InsertarJuegos.insertarListaJuegos(conexion, coleccion.getLista());
+				vista.getMntmAbrir().setEnabled(false);
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
 				vista.getLblBarraTitulo().setText("No hay fichero cargado");
@@ -75,7 +82,7 @@ public class Controlador {
 		
 		//Evento de carga de datos al formulario haciendo click en una fila
 		
-		vista.getTabla().addMouseListener(new MouseAdapter() {
+		vista.getTabla().addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				indice = vista.getTabla().getSelectedRow();
@@ -134,23 +141,23 @@ public class Controlador {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (esJuegoValido()){
-					Juego juego = new Juego(vista.getTextNombre().getText(), "resources/dado.png", Integer.parseInt(vista.getTextMin().getText()), Integer.parseInt(vista.getTextMax().getText()), Integer.parseInt(vista.getTextTiempo().getText()), Integer.parseInt(vista.getTextRanking().getText()), Double.parseDouble(vista.getTextRating().getText()), Year.parse(vista.getTextAnyo().getText()));
+					Juego juego = new Juego(vista.getTextNombre().getText(), "resources/dado.png", Integer.parseInt(vista.getTextMin().getText()), Integer.parseInt(vista.getTextMax().getText()), Integer.parseInt(vista.getTextTiempo().getText()), Integer.parseInt(vista.getTextRanking().getText()), Double.parseDouble(vista.getTextRating().getText()), Integer.parseInt(vista.getTextAnyo().getText()));
 					if (esJuegoIgual(juego)){
 						JOptionPane.showMessageDialog(vista.getFrame(), "Juego repetido", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						if(modificar){
-							lFichero.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
-							lFichero.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
-							lFichero.getLista().get(indice).setNombre(vista.getTextNombre().getText());
-							lFichero.getLista().get(indice).setAnyoPublicacion(Year.parse(vista.getTextAnyo().getText()));
-							lFichero.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
-							lFichero.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
-							lFichero.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
-							vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
+							coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
+							coleccion.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
+							coleccion.getLista().get(indice).setNombre(vista.getTextNombre().getText());
+							coleccion.getLista().get(indice).setAnyoPublicacion(Integer.parseInt(vista.getTextAnyo().getText()));
+							coleccion.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
+							coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
+							coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
+							vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
 						} else {
-							lFichero.getLista().add(juego);
+							coleccion.getLista().add(juego);
 							InsertarJuegos.insertarJuego(conexion, juego);
-							vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
+							vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
 						}
 					}
 				}
@@ -161,11 +168,11 @@ public class Controlador {
 		
 		vista.getBtnEliminar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String texto = "¿Desea borrar "+ lFichero.getLista().get(indice).getNombre() + "?";
+				String texto = "¿Desea borrar "+ coleccion.getLista().get(indice).getNombre() + "?";
 				if(lFichero!=null){
 					if (confirmar(texto)==0){
-						lFichero.getLista().remove(lFichero.getLista().get(indice));
-						vista.getTabla().setModel(new TablaModelo(lFichero.getLista()));
+						coleccion.getLista().remove(coleccion.getLista().get(indice));
+						vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
 					}
 				} else if (lFichero == null) {
 					vista.getLblBarraTitulo().setText("No tiene cargado ningún archivo");
@@ -189,7 +196,7 @@ public class Controlador {
 							List<Juego> lista = new ArrayList<Juego>();
 							int[] arraySeleccion = vista.getTabla().getSelectedRows();
 							for (int i = 0; i < arraySeleccion.length; i++ ){
-								lista.add(lFichero.getLista().get(arraySeleccion[i]));
+								lista.add(coleccion.getLista().get(arraySeleccion[i]));
 							}
 							CreadorPDF.crearPDF(lista, Extension.obtenerExtension(jFPDF));
 						}
@@ -202,9 +209,20 @@ public class Controlador {
 		
 		vista.getMntmCreditos().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(vista.getFrame(),"GameBoardDB\nManuel Quesada Segura\n26/05/2016","Créditos",JOptionPane.PLAIN_MESSAGE);
+				//JOptionPane.showMessageDialog(vista.getFrame(),"GameBoardDB\nManuel Quesada Segura\n26/05/2016","Créditos",JOptionPane.PLAIN_MESSAGE);
+				AcercaDe ad = new AcercaDe();
+				ad.setLocationRelativeTo(vista.getFrame());
+				ad.setVisible(true);
 			}
 		});
+		
+		//método incompleto. La idea es que si el usuario realiza cualquier cambio el programa le alerte de si desea
+		//guardar los cambios. El problema es almacenar la fila anterior modificada
+		
+		vista.getTabla().getSelectionModel().addListSelectionListener(l->{
+			
+		});
+		
 	}
 	
 	/**
@@ -214,25 +232,31 @@ public class Controlador {
 	 * @param indice del elemento que debe de ser mostrado en pantalla
 	 */
 	private void rellenarFormulario(int indice){
+		
+		for (Juego juego : coleccion.getLista()) {
+			System.out.println(juego);
+		}
+		
+		
 		modificar = true;
-		vista.getTextNombre().setText(lFichero.getLista().get(indice).getNombre());
-		vista.getTextAnyo().setText(lFichero.getLista().get(indice).getAnyoPublicacion()+"");
-		vista.getTextMax().setText(lFichero.getLista().get(indice).getMaximoJugadores()+"");
-		vista.getTextMin().setText(lFichero.getLista().get(indice).getMinimoJugadores()+"");
-		vista.getTextRanking().setText(lFichero.getLista().get(indice).getRanking()+"");
-		vista.getTextRating().setText(lFichero.getLista().get(indice).getRating()+"");
-		vista.getTextTiempo().setText(lFichero.getLista().get(indice).getTiempoJuego()+"");
-		String cadena = "Juego "+(indice+1)+" de "+lFichero.getLista().size();
+		vista.getTextNombre().setText(coleccion.getLista().get(indice).getNombre());
+		vista.getTextAnyo().setText(coleccion.getLista().get(indice).getAnyoPublicacion()+"");
+		vista.getTextMax().setText(coleccion.getLista().get(indice).getMaximoJugadores()+"");
+		vista.getTextMin().setText(coleccion.getLista().get(indice).getMinimoJugadores()+"");
+		vista.getTextRanking().setText(coleccion.getLista().get(indice).getRanking()+"");
+		vista.getTextRating().setText(coleccion.getLista().get(indice).getRating()+"");
+		vista.getTextTiempo().setText(coleccion.getLista().get(indice).getTiempoJuego()+"");
+		String cadena = "Juego "+(indice+1)+" de "+coleccion.getLista().size();
 		vista.getLblBarraTitulo().setText(cadena);
 		//El siguiente código introduce una imagen del juego seleccionado en el programa
 		//En defecto de imagen muestra una imagen de un dado que se conserva en /resources
 		Image imagen = null;
-		if (lFichero.getLista().get(indice).getImagen().equals("resources/dado.png")){
+		if (coleccion.getLista().get(indice).getImagen().equals("resources/dado.png")){
 			vista.getImagen().setText("");
 			vista.getImagen().setIcon(new ImageIcon("resources/dado.png"));
 		} else {
 			try {
-				URL url = new URL("http:"+lFichero.getLista().get(indice).getImagen());
+				URL url = new URL("http:"+coleccion.getLista().get(indice).getImagen());
 				imagen = ImageIO.read(url);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -286,7 +310,7 @@ public class Controlador {
 	 */
 	private boolean esJuegoIgual(Juego juego){
 		boolean igual = false;
-		for (Juego j : lFichero.getLista()) {
+		for (Juego j : coleccion.getLista()) {
 			if(j.equals(juego)) igual = true;
 		}
 		return igual;
