@@ -47,7 +47,7 @@ public class ConsultarBD {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return coleccion.getLista();
+		return Coleccion.getLista();
 		
 	}
 }

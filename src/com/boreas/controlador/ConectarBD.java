@@ -16,6 +16,7 @@ import org.sqlite.SQLiteConfig;
 
 public class ConectarBD {
 	private static Connection conexion;
+	
 	private ConectarBD () {} ;
 	
 	/**
@@ -65,4 +66,5 @@ public class ConectarBD {
 		    }
 		}
 	}
+	
 }

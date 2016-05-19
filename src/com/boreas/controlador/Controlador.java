@@ -34,11 +34,10 @@ public class Controlador {
 	
 	private VistaPrincipal vista;
 	private File fichero;
-	private Coleccion coleccion;
 	private LecturaFichero lFichero = new LecturaFichero();
 	private int indice = 0;
 	private boolean modificar = true;
-	private Connection conexion;
+	private Connection c = ConectarBD.getConexion();
 	
 	/**
 	 * 
@@ -47,15 +46,15 @@ public class Controlador {
 	
 	public Controlador(VistaPrincipal vista){
 		this.vista = vista;
-		conexion = ConectarBD.getConexion();
 		inicializar();
 	}
 
 	public void inicializar(){
 		
-		if (new File("database.db").exists() && ConsultarBD.obtenerFilas(conexion)>0){
+		if (new File("database.db").exists() && ConsultarBD.obtenerFilas(c)>0){
+			System.out.println(c);
 			vista.getMntmAbrir().setEnabled(false);
-			vista.getTabla().setModel(new TablaModelo(ConsultarBD.obtenerTodos(conexion)));
+			vista.getTabla().setModel(new TablaModelo(ConsultarBD.obtenerTodos(c)));
 		}
 		
 		//Evento carga de datos a la tabla
@@ -67,11 +66,10 @@ public class Controlador {
 			int seleccion = fC.showOpenDialog(vista.getMntmAbrir());
 			if (seleccion == JFileChooser.APPROVE_OPTION){
 				fichero = fC.getSelectedFile();
-				//coleccion = new Coleccion();
 				lFichero.leerFichero(fichero);
-				vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
-				CrearTablasBD.crearTablaJuego(conexion);
-				InsertarJuegos.insertarListaJuegos(conexion, coleccion.getLista());
+				vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
+				CrearTablasBD.crearTablaJuego(c);
+				InsertarJuegos.insertarListaJuegos(c,Coleccion.getLista());
 				vista.getMntmAbrir().setEnabled(false);
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
@@ -146,18 +144,18 @@ public class Controlador {
 						JOptionPane.showMessageDialog(vista.getFrame(), "Juego repetido", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						if(modificar){
-							coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
-							coleccion.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
-							coleccion.getLista().get(indice).setNombre(vista.getTextNombre().getText());
-							coleccion.getLista().get(indice).setAnyoPublicacion(Integer.parseInt(vista.getTextAnyo().getText()));
-							coleccion.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
-							coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
-							coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
-							vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
+							Coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
+							Coleccion.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
+							Coleccion.getLista().get(indice).setNombre(vista.getTextNombre().getText());
+							Coleccion.getLista().get(indice).setAnyoPublicacion(Integer.parseInt(vista.getTextAnyo().getText()));
+							Coleccion.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
+							Coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
+							Coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
+							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 						} else {
-							coleccion.getLista().add(juego);
-							InsertarJuegos.insertarJuego(conexion, juego);
-							vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
+							Coleccion.getLista().add(juego);
+							InsertarJuegos.insertarJuego(c, juego);
+							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 						}
 					}
 				}
@@ -168,11 +166,11 @@ public class Controlador {
 		
 		vista.getBtnEliminar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String texto = "¿Desea borrar "+ coleccion.getLista().get(indice).getNombre() + "?";
+				String texto = "¿Desea borrar "+ Coleccion.getLista().get(indice).getNombre() + "?";
 				if(lFichero!=null){
 					if (confirmar(texto)==0){
-						coleccion.getLista().remove(coleccion.getLista().get(indice));
-						vista.getTabla().setModel(new TablaModelo(coleccion.getLista()));
+						Coleccion.getLista().remove(Coleccion.getLista().get(indice));
+						vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 					}
 				} else if (lFichero == null) {
 					vista.getLblBarraTitulo().setText("No tiene cargado ningún archivo");
@@ -196,7 +194,7 @@ public class Controlador {
 							List<Juego> lista = new ArrayList<Juego>();
 							int[] arraySeleccion = vista.getTabla().getSelectedRows();
 							for (int i = 0; i < arraySeleccion.length; i++ ){
-								lista.add(coleccion.getLista().get(arraySeleccion[i]));
+								lista.add(Coleccion.getLista().get(arraySeleccion[i]));
 							}
 							CreadorPDF.crearPDF(lista, Extension.obtenerExtension(jFPDF));
 						}
@@ -232,31 +230,25 @@ public class Controlador {
 	 * @param indice del elemento que debe de ser mostrado en pantalla
 	 */
 	private void rellenarFormulario(int indice){
-		
-		for (Juego juego : coleccion.getLista()) {
-			System.out.println(juego);
-		}
-		
-		
 		modificar = true;
-		vista.getTextNombre().setText(coleccion.getLista().get(indice).getNombre());
-		vista.getTextAnyo().setText(coleccion.getLista().get(indice).getAnyoPublicacion()+"");
-		vista.getTextMax().setText(coleccion.getLista().get(indice).getMaximoJugadores()+"");
-		vista.getTextMin().setText(coleccion.getLista().get(indice).getMinimoJugadores()+"");
-		vista.getTextRanking().setText(coleccion.getLista().get(indice).getRanking()+"");
-		vista.getTextRating().setText(coleccion.getLista().get(indice).getRating()+"");
-		vista.getTextTiempo().setText(coleccion.getLista().get(indice).getTiempoJuego()+"");
-		String cadena = "Juego "+(indice+1)+" de "+coleccion.getLista().size();
+		vista.getTextNombre().setText(Coleccion.getLista().get(indice).getNombre());
+		vista.getTextAnyo().setText(Coleccion.getLista().get(indice).getAnyoPublicacion()+"");
+		vista.getTextMax().setText(Coleccion.getLista().get(indice).getMaximoJugadores()+"");
+		vista.getTextMin().setText(Coleccion.getLista().get(indice).getMinimoJugadores()+"");
+		vista.getTextRanking().setText(Coleccion.getLista().get(indice).getRanking()+"");
+		vista.getTextRating().setText(Coleccion.getLista().get(indice).getRating()+"");
+		vista.getTextTiempo().setText(Coleccion.getLista().get(indice).getTiempoJuego()+"");
+		String cadena = "Juego "+(indice+1)+" de "+Coleccion.getLista().size();
 		vista.getLblBarraTitulo().setText(cadena);
 		//El siguiente código introduce una imagen del juego seleccionado en el programa
 		//En defecto de imagen muestra una imagen de un dado que se conserva en /resources
 		Image imagen = null;
-		if (coleccion.getLista().get(indice).getImagen().equals("resources/dado.png")){
+		if (Coleccion.getLista().get(indice).getImagen().equals("resources/dado.png")){
 			vista.getImagen().setText("");
 			vista.getImagen().setIcon(new ImageIcon("resources/dado.png"));
 		} else {
 			try {
-				URL url = new URL("http:"+coleccion.getLista().get(indice).getImagen());
+				URL url = new URL("http:"+Coleccion.getLista().get(indice).getImagen());
 				imagen = ImageIO.read(url);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -310,7 +302,7 @@ public class Controlador {
 	 */
 	private boolean esJuegoIgual(Juego juego){
 		boolean igual = false;
-		for (Juego j : coleccion.getLista()) {
+		for (Juego j : Coleccion.getLista()) {
 			if(j.equals(juego)) igual = true;
 		}
 		return igual;

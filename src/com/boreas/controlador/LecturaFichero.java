@@ -69,15 +69,12 @@ public class LecturaFichero {
 			e.printStackTrace();
 		}
 		
-		for (Juego juego : coleccion.getLista()) {
+		/*for (Juego juego : coleccion.getLista()) {
 			System.out.println(juego);
-		}
+		}*/
 		
 	}
 	
-	/*public List<Juego> getLista() {
-		return lista;
-	}*/
 }
 
 

@@ -20,7 +20,7 @@ public class AcercaDe extends JDialog implements ActionListener{
 	public AcercaDe() {
 		super();
 		iniciar();
-		this.setTitle("Juegos");
+		this.setTitle("Créditos");
 		this.setSize(293, 217);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		this.setModal(true);

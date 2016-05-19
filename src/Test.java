@@ -7,7 +7,7 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		Controlador controlador = new Controlador(new VistaPrincipal());
+		//Controlador controlador = new Controlador(new VistaPrincipal());
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
