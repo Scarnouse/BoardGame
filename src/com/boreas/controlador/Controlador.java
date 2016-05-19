@@ -38,6 +38,7 @@ public class Controlador {
 	private int indice = 0;
 	private boolean modificar = true;
 	private Connection c = ConectarBD.getConexion();
+	JuegoDAOImpSQLite jSQLite = new JuegoDAOImpSQLite();
 	
 	/**
 	 * 
@@ -51,10 +52,9 @@ public class Controlador {
 
 	public void inicializar(){
 		
-		if (new File("database.db").exists() && ConsultarBD.obtenerFilas(c)>0){
-			System.out.println(c);
+		if (new File("database.db").exists() && jSQLite.obtenerFilas()>0){
 			vista.getMntmAbrir().setEnabled(false);
-			vista.getTabla().setModel(new TablaModelo(ConsultarBD.obtenerTodos(c)));
+			vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 		}
 		
 		//Evento carga de datos a la tabla
@@ -69,7 +69,7 @@ public class Controlador {
 				lFichero.leerFichero(fichero);
 				vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 				CrearTablasBD.crearTablaJuego(c);
-				InsertarJuegos.insertarListaJuegos(c,Coleccion.getLista());
+				CrearTablasBD.insertarListaJuegos(c,Coleccion.getLista());
 				vista.getMntmAbrir().setEnabled(false);
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
@@ -137,28 +137,31 @@ public class Controlador {
 		//Evento para guardar
 		vista.getBtnGuardar().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				if (esJuegoValido()){
 					Juego juego = new Juego(vista.getTextNombre().getText(), "resources/dado.png", Integer.parseInt(vista.getTextMin().getText()), Integer.parseInt(vista.getTextMax().getText()), Integer.parseInt(vista.getTextTiempo().getText()), Integer.parseInt(vista.getTextRanking().getText()), Double.parseDouble(vista.getTextRating().getText()), Integer.parseInt(vista.getTextAnyo().getText()));
 					if (esJuegoIgual(juego)){
 						JOptionPane.showMessageDialog(vista.getFrame(), "Juego repetido", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						if(modificar){
-							Coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
+							/*Coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
 							Coleccion.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
 							Coleccion.getLista().get(indice).setNombre(vista.getTextNombre().getText());
 							Coleccion.getLista().get(indice).setAnyoPublicacion(Integer.parseInt(vista.getTextAnyo().getText()));
 							Coleccion.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
 							Coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
 							Coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
-							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
+							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));*/
+							//El insert me funciona pero no se recarga la lista
+							jSQLite.actualizarJuego(Coleccion.getLista().get(indice), Coleccion.getLista().get(indice).getNombre());					
+							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 						} else {
-							Coleccion.getLista().add(juego);
-							InsertarJuegos.insertarJuego(c, juego);
+							//Coleccion.getLista().add(juego);
+							jSQLite.insertarJuego(juego);
 							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 						}
 					}
 				}
+				
 			}
 		});
 		
@@ -169,8 +172,10 @@ public class Controlador {
 				String texto = "¿Desea borrar "+ Coleccion.getLista().get(indice).getNombre() + "?";
 				if(lFichero!=null){
 					if (confirmar(texto)==0){
-						Coleccion.getLista().remove(Coleccion.getLista().get(indice));
-						vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
+						//Coleccion.getLista().remove(Coleccion.getLista().get(indice));
+						//vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
+						jSQLite.borrarJuego(Coleccion.getLista().get(indice).getNombre());
+						vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 					}
 				} else if (lFichero == null) {
 					vista.getLblBarraTitulo().setText("No tiene cargado ningún archivo");

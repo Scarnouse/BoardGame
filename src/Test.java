@@ -6,8 +6,6 @@ import com.boreas.vista.VistaPrincipal;
 public class Test {
 	
 	public static void main(String[] args) {
-		
-		//Controlador controlador = new Controlador(new VistaPrincipal());
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
