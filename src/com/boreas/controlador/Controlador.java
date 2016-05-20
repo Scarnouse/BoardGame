@@ -36,7 +36,7 @@ public class Controlador {
 	private File fichero;
 	private LecturaFichero lFichero = new LecturaFichero();
 	private int indice = 0;
-	private boolean modificar = true;
+	private boolean modificar = false;
 	private Connection c = ConectarBD.getConexion();
 	JuegoDAOImpSQLite jSQLite = new JuegoDAOImpSQLite();
 	
@@ -118,7 +118,6 @@ public class Controlador {
 		
 		//Evento de cierre desde el menú
 		vista.getMntmCerrar().addActionListener(l->{
-			//lógica para guardar la base de datos
 			System.exit(0);
 		});
 		
@@ -151,13 +150,11 @@ public class Controlador {
 							Coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
 							Coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
 							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));*/
-							//El insert me funciona pero no se recarga la lista
 							jSQLite.actualizarJuego(Coleccion.getLista().get(indice), Coleccion.getLista().get(indice).getNombre());					
 							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 						} else {
-							//Coleccion.getLista().add(juego);
 							jSQLite.insertarJuego(juego);
-							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
+							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 						}
 					}
 				}
@@ -212,7 +209,6 @@ public class Controlador {
 		
 		vista.getMntmCreditos().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//JOptionPane.showMessageDialog(vista.getFrame(),"GameBoardDB\nManuel Quesada Segura\n26/05/2016","Créditos",JOptionPane.PLAIN_MESSAGE);
 				AcercaDe ad = new AcercaDe();
 				ad.setLocationRelativeTo(vista.getFrame());
 				ad.setVisible(true);

@@ -21,12 +21,19 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 	
 	@Override
 	public void insertarJuego(Juego juego) {
-		String sql = "INSERT INTO JUEGO VALUES (null,'"+juego.getNombre().replace("'","")+"','"+juego.getAnyoPublicacion()+"','"+juego.getMinimoJugadores()+"','"+juego.getMaximoJugadores()+"','"+juego.getTiempoJuego()+"','"+juego.getRanking()+"','"+juego.getRating()+"')";
+		
 		try {
 			sentencia = conexion.createStatement();
+			String sql = "INSERT INTO JUEGO VALUES (null,'"+juego.getNombre().replace("'","")+"','resources/dado.png','"+juego.getAnyoPublicacion()+"','"+juego.getMinimoJugadores()+"','"+juego.getMaximoJugadores()+"','"+juego.getTiempoJuego()+"','"+juego.getRanking()+"','"+juego.getRating()+"')";
 			sentencia.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				sentencia.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -46,10 +53,17 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 			sentenciaPreparada.setString(7, Integer.toString(juego.getAnyoPublicacion()));
 			sentenciaPreparada.setString(8, nombre);
 			valor = sentenciaPreparada.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				sentenciaPreparada.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		System.out.println(valor);
+		System.out.println(valor + " - " + juego.getNombre().equals(nombre));
 		return valor;
 	}
 
@@ -61,6 +75,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 			sentenciaPreparada = conexion.prepareStatement(sql);
 			sentenciaPreparada.setString(1, nombre);
 			valor = sentenciaPreparada.executeUpdate();
+			sentenciaPreparada.closeOnCompletion();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,6 +93,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 			while(resultado.next()){
 					coleccion.addLista(new Juego(resultado.getString("nombre"),resultado.getString("imagen"),resultado.getInt("minimo"),resultado.getInt("maximo"),resultado.getInt("tiempo"),resultado.getInt("ranking"),resultado.getDouble("rating"), resultado.getInt("anyo")));
 			}
+			sentencia.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -95,7 +111,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 			resultado.next();
 			filas = resultado.getInt("filas");
 			resultado.close();
-
+			
 		} catch (SQLException e) {
 			return 0;
 		}

@@ -21,7 +21,7 @@ public class CrearTablasBD {
 	 */
 	public static  void crearTablaJuego(Connection con){
 		
-		String sql1 = "CREATE TABLE IF NOT EXISTS JUEGO ("
+		String sql = "CREATE TABLE IF NOT EXISTS JUEGO ("
 				+ "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "NOMBRE TEXT,"
 				+ "IMAGEN TEXT,"
@@ -34,7 +34,7 @@ public class CrearTablasBD {
 		
 		try {
 			sentencia = con.createStatement();
-			sentencia.executeUpdate(sql1);
+			sentencia.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
