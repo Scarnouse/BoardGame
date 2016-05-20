@@ -10,7 +10,15 @@ import java.util.List;
 import com.boreas.modelo.Coleccion;
 import com.boreas.modelo.Juego;
 
+/**
+ * 
+ * @author Manuel Quesada Segura
+ * @version 0.0
+ *
+ */
+
 public class JuegoDAOImpSQLite implements JuegoDAO{
+
 	
 	private Connection conexion = ConectarBD.getConexion();
 	private static Statement sentencia;
@@ -19,6 +27,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 	
 	public JuegoDAOImpSQLite() {};
 	
+	//Sobreescritura del método que permite insertar juegos a la tabla
 	@Override
 	public void insertarJuego(Juego juego) {
 		
@@ -38,8 +47,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		
 	}
 	
-	//UPDATE JUEGO SET NOMBRE=?, MINIMO =?, MAXIMO=?, TIEMPO=?, RANKING=?, RATING=?, ANYO=? WHERE NOMBRE=?
-	
+	//Sobreescritura del método que permite actualizar un juego desde el formulario
 	@Override
 	public int actualizarJuego(Juego juego,int indice) {
 		String sql = "UPDATE JUEGO SET NOMBRE=?, MINIMO=?, MAXIMO=?, TIEMPO=?, RANKING=?, RATING=?, ANYO=? WHERE ID=?";
@@ -69,6 +77,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		return valor;
 	}
 
+	//sobreescritura del método que permite el borrado de filas de la tabla
 	@Override
 	public int borrarJuego(String nombre) {
 		String sql = "DELETE FROM JUEGO WHERE nombre=?";
@@ -84,7 +93,8 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		System.out.println(valor);
 		return valor;
 	}
-
+	
+	//sobreescritura del métood que carga la tabla al inicio del programa
 	@Override
 	public List<Juego> leerTodosJuegos() {
 		Coleccion.getLista().clear();
@@ -102,6 +112,9 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		return Coleccion.getLista();
 	}
 	
+	//sobreescritura que me permite saber si la tabla tiene filas.
+	//este se utiliza para controlar la carga inicial de datos, si la tabla no tiene filas
+	//habilita la carga desde fichero edwater.json
 	public int obtenerFilas (){
 		
 		int filas = 0;
@@ -121,6 +134,8 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		
 	}
 
+	//sobreescritura que devuleve el id del juego
+	//usada para obtener la posición el juego y aplicarle modificaciones al mismo
 	@Override
 	public int obtenerID(Juego juego) {
 		
@@ -139,8 +154,6 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(id);
-		
 		return id;
 	}
 	

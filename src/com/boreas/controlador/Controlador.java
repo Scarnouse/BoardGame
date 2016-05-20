@@ -142,18 +142,9 @@ public class Controlador {
 						JOptionPane.showMessageDialog(vista.getFrame(), "Juego repetido", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						if(modificar){
-							/*Coleccion.getLista().get(indice).setMaximoJugadores(Integer.parseInt(vista.getTextMax().getText()));
-							Coleccion.getLista().get(indice).setMinimoJugadores(Integer.parseInt(vista.getTextMin().getText()));
-							Coleccion.getLista().get(indice).setNombre(vista.getTextNombre().getText());
-							Coleccion.getLista().get(indice).setAnyoPublicacion(Integer.parseInt(vista.getTextAnyo().getText()));
-							Coleccion.getLista().get(indice).setRanking(Integer.parseInt(vista.getTextRanking().getText()));
-							Coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
-							Coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
-							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));*/
-							//jSQLite.actualizarJuego(Coleccion.getLista().get(indice));
 							int lugarBD = jSQLite.obtenerID(Coleccion.getLista().get(indice));
-							//jSQLite.actualizarJuego();
-							//vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
+							jSQLite.actualizarJuego(new Juego(vista.getTextNombre().getText(), Coleccion.getLista().get(indice).getImagen(), Integer.parseInt(vista.getTextMin().getText()), Integer.parseInt(vista.getTextMax().getText()), Integer.parseInt(vista.getTextTiempo().getText()), Integer.parseInt(vista.getTextRanking().getText()), Double.parseDouble(vista.getTextRating().getText()), Integer.parseInt(vista.getTextAnyo().getText())),lugarBD);
+							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 						} else {
 							jSQLite.insertarJuego(juego);
 							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
@@ -308,7 +299,7 @@ public class Controlador {
 		for (Juego j : Coleccion.getLista()) {
 			if(j.equals(juego)) igual = true;
 		}
-		return false;
+		return igual;
 	}
 	/**
 	 * Se utiliza en varios lugares del código un elemento JOptionPane que permite la selección entre sí y no.

@@ -69,6 +69,7 @@ public class LecturaFichero {
 			e.printStackTrace();
 		}
 		
+		//Este bucle me permitía ver si la carga desde el JSON se había hecho correctamente.
 		/*for (Juego juego : coleccion.getLista()) {
 			System.out.println(juego);
 		}*/

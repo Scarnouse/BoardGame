@@ -13,10 +13,17 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Manuel Quesada Segura
+ * @version 0.0
+ *
+ */
 public class AcercaDe extends JDialog implements ActionListener{
 	
 	private JButton salir;
 	
+	//constructor que inicializa la ventana modal con la información del los créditos
 	public AcercaDe() {
 		super();
 		iniciar();
@@ -26,6 +33,7 @@ public class AcercaDe extends JDialog implements ActionListener{
 		this.setModal(true);
 	}
 	
+	//frame principal del mismo
 	private void iniciar(){
 		
 		JPanel panelPrincipal = new JPanel(new BorderLayout());
@@ -60,6 +68,7 @@ public class AcercaDe extends JDialog implements ActionListener{
 		
 	}
 	
+	//evento de cierre desde el botón.
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();

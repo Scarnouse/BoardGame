@@ -5,7 +5,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
- * Esta clase trata de incluir la extensión a los ficheros pdf
+ * Esta clase incluye la extensión a los ficheros pdf
  * Puede ser reutilizada para incluir extensiones a otros ficheros.
  * @author Manuel Quesada Segura
  * @version 0.0
