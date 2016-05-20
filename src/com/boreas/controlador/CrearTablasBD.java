@@ -30,7 +30,8 @@ public class CrearTablasBD {
 				+ "TIEMPO INTEGER,"
 				+ "RANKING INTEGER,"
 				+ "RATING REAL,"
-				+ "ANYO TEXT)";
+				+ "ANYO TEXT"
+				+ ");";
 		
 		try {
 			sentencia = con.createStatement();

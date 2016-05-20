@@ -150,8 +150,10 @@ public class Controlador {
 							Coleccion.getLista().get(indice).setRating(Double.parseDouble(vista.getTextRating().getText()));
 							Coleccion.getLista().get(indice).setTiempoJuego(Integer.parseInt(vista.getTextTiempo().getText()));
 							vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));*/
-							jSQLite.actualizarJuego(Coleccion.getLista().get(indice), Coleccion.getLista().get(indice).getNombre());					
-							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
+							//jSQLite.actualizarJuego(Coleccion.getLista().get(indice));
+							int lugarBD = jSQLite.obtenerID(Coleccion.getLista().get(indice));
+							//jSQLite.actualizarJuego();
+							//vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
 						} else {
 							jSQLite.insertarJuego(juego);
 							vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
@@ -306,7 +308,7 @@ public class Controlador {
 		for (Juego j : Coleccion.getLista()) {
 			if(j.equals(juego)) igual = true;
 		}
-		return igual;
+		return false;
 	}
 	/**
 	 * Se utiliza en varios lugares del código un elemento JOptionPane que permite la selección entre sí y no.

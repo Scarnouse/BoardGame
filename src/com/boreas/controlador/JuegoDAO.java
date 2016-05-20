@@ -6,7 +6,8 @@ import com.boreas.modelo.Juego;
 
 public interface JuegoDAO {
 	public void insertarJuego(Juego juego);
-	public int actualizarJuego(Juego juego, String nombre);
+	public int actualizarJuego(Juego juego,int indice);
 	public int borrarJuego(String nombre);
 	public List<Juego> leerTodosJuegos();
+	public int obtenerID(Juego juego);
 }

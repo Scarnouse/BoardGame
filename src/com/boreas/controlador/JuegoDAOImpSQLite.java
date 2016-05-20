@@ -38,9 +38,11 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		
 	}
 	
+	//UPDATE JUEGO SET NOMBRE=?, MINIMO =?, MAXIMO=?, TIEMPO=?, RANKING=?, RATING=?, ANYO=? WHERE NOMBRE=?
+	
 	@Override
-	public int actualizarJuego(Juego juego, String nombre) {
-		String sql = "UPDATE JUEGO SET NOMBRE=?, MINIMO =?, MAXIMO=?, TIEMPO=?, RANKING=?, RATING=?, ANYO=? WHERE NOMBRE=?";
+	public int actualizarJuego(Juego juego,int indice) {
+		String sql = "UPDATE JUEGO SET NOMBRE=?, MINIMO=?, MAXIMO=?, TIEMPO=?, RANKING=?, RATING=?, ANYO=? WHERE ID=?";
 		int valor = 0;
 		try {
 			sentenciaPreparada = conexion.prepareStatement(sql);
@@ -51,7 +53,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 			sentenciaPreparada.setInt(5, juego.getRanking());
 			sentenciaPreparada.setDouble(6, juego.getRating());
 			sentenciaPreparada.setString(7, Integer.toString(juego.getAnyoPublicacion()));
-			sentenciaPreparada.setString(8, nombre);
+			sentenciaPreparada.setInt(8, indice);
 			valor = sentenciaPreparada.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -63,7 +65,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 				e.printStackTrace();
 			}
 		}
-		System.out.println(valor + " - " + juego.getNombre().equals(nombre));
+		//System.out.println(valor + " - " + juego);
 		return valor;
 	}
 
@@ -118,5 +120,30 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		return filas;
 		
 	}
+
+	@Override
+	public int obtenerID(Juego juego) {
+		
+		String sql = "SELECT ID FROM JUEGO WHERE NOMBRE=?;";
+		int id = -1;
+		try {
+		
+			sentenciaPreparada = conexion.prepareStatement(sql);
+			sentenciaPreparada.setString(1, juego.getNombre());
+			ResultSet resultado = sentenciaPreparada.executeQuery();
+
+			while(resultado.next())
+				id = resultado.getInt("ID");
+			resultado.close();	
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(id);
+		
+		return id;
+	}
+	
+	
 
 }
