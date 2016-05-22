@@ -68,8 +68,9 @@ public class Controlador {
 				fichero = fC.getSelectedFile();
 				lFichero.leerFichero(fichero);
 				vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
-				CrearTablasBD.crearTablaJuego(c);
-				CrearTablasBD.insertarListaJuegos(c,Coleccion.getLista());
+				//CrearTablasBD.crearTablaJuego(c);
+				//CrearTablasBD.insertarListaJuegos(c,Coleccion.getLista());
+				CrearTablasBD.triggerCarga(c, Coleccion.getLista());
 				vista.getMntmAbrir().setEnabled(false);
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
@@ -177,23 +178,35 @@ public class Controlador {
 		
 		vista.getMntmGenerarPdf().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String texto = "¿Desea generar informe con los elementos seleccionados?";
-				if (lFichero!=null){
-					if (confirmar(texto)==0){
-						//lógica que crea el archivo PDF
-						FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos PDF", "pdf");
-						JFileChooser jFPDF = new JFileChooser();
-						jFPDF.setFileFilter(filtro);
-						int seleccionSave = jFPDF.showSaveDialog(null);
-						if (seleccionSave == JFileChooser.APPROVE_OPTION){
-							List<Juego> lista = new ArrayList<Juego>();
-							int[] arraySeleccion = vista.getTabla().getSelectedRows();
-							for (int i = 0; i < arraySeleccion.length; i++ ){
-								lista.add(Coleccion.getLista().get(arraySeleccion[i]));
+				FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos PDF", "pdf");
+				if (!Coleccion.getLista().isEmpty()){
+					String texto = "¿Desea generar un informe con todos los elementos?";
+					if(vista.getTabla().getSelectedRowCount() == 0){
+						if(confirmar(texto)==0){
+							JFileChooser jFPDF = new JFileChooser();
+							jFPDF.setFileFilter(filtro);
+							if(jFPDF.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
+								CreadorPDF.crearPDF(Coleccion.getLista(), Extension.obtenerExtension(jFPDF));
 							}
-							CreadorPDF.crearPDF(lista, Extension.obtenerExtension(jFPDF));
 						}
-					} 
+					} else {
+						texto = "¿Desea generar un informe con los elementos seleccionados?";
+						if (lFichero!=null){
+							if (confirmar(texto)==0){
+								JFileChooser jFPDF = new JFileChooser();
+								jFPDF.setFileFilter(filtro);
+								int seleccionSave = jFPDF.showSaveDialog(null);
+								if (seleccionSave == JFileChooser.APPROVE_OPTION){
+									List<Juego> lista = new ArrayList<Juego>();
+									int[] arraySeleccion = vista.getTabla().getSelectedRows();
+									for (int i = 0; i < arraySeleccion.length; i++ ){
+										lista.add(Coleccion.getLista().get(arraySeleccion[i]));
+									}
+									CreadorPDF.crearPDF(lista, Extension.obtenerExtension(jFPDF));
+								}
+							} 
+						}
+					} 	
 				} else vista.getLblBarraTitulo().setText("No tiene cargado ningún archivo");
 			}
 		});
@@ -208,12 +221,7 @@ public class Controlador {
 			}
 		});
 		
-		//método incompleto. La idea es que si el usuario realiza cualquier cambio el programa le alerte de si desea
-		//guardar los cambios. El problema es almacenar la fila anterior modificada
-		
-		vista.getTabla().getSelectionModel().addListSelectionListener(l->{
-			
-		});
+
 		
 	}
 	
