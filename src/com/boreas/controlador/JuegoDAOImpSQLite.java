@@ -90,7 +90,7 @@ public class JuegoDAOImpSQLite implements JuegoDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(valor);
+		//System.out.println(valor);
 		return valor;
 	}
 	

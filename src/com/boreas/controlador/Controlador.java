@@ -55,6 +55,7 @@ public class Controlador {
 		if (new File("database.db").exists() && jSQLite.obtenerFilas()>0){
 			vista.getMntmAbrir().setEnabled(false);
 			vista.getTabla().setModel(new TablaModelo(jSQLite.leerTodosJuegos()));
+			CrearTablasBD.triggerBorrado(c);
 		}
 		
 		//Evento carga de datos a la tabla
@@ -70,7 +71,7 @@ public class Controlador {
 				vista.getTabla().setModel(new TablaModelo(Coleccion.getLista()));
 				//CrearTablasBD.crearTablaJuego(c);
 				//CrearTablasBD.insertarListaJuegos(c,Coleccion.getLista());
-				CrearTablasBD.triggerCarga(c, Coleccion.getLista());
+				CrearTablasBD.cargarTablasLotes(c, Coleccion.getLista());
 				vista.getMntmAbrir().setEnabled(false);
 			}			
 			if (seleccion == JFileChooser.CANCEL_OPTION){
@@ -221,7 +222,11 @@ public class Controlador {
 			}
 		});
 		
-
+		vista.getTabla().getSelectionModel().addListSelectionListener(l->{
+			System.out.println(vista.getTabla().getSelectedRow());
+			indice = vista.getTabla().getSelectedRow();
+			rellenarFormulario(indice);
+		});
 		
 	}
 	
